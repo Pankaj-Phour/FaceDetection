@@ -15,6 +15,7 @@ export class LoginComponent implements OnInit {
     ) { }
 
   ngOnInit(): void {
+    localStorage.setItem('selected','login');
     this.validation()
   }
 

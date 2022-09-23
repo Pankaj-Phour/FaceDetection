@@ -25,7 +25,7 @@ export class CameraComponent implements OnInit,OnDestroy {
   }
 
   ngOnInit() {
-
+    localStorage.setItem('selected','camera');
     this.openCamea();
     this.detectFaces();
 

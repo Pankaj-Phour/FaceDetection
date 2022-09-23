@@ -4,7 +4,7 @@
 
 export const environment = {
   production: false,
-  Url : 'http://localhost:3001',
+  Url : 'https://pankaj-node-api.herokuapp.com',
   User : 'https://630369f20de3cd918b34e39e.mockapi.io/',
   Stats : 'https://630369f20de3cd918b34e39e.mockapi.io/'
 };

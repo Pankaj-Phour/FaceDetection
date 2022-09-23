@@ -16,6 +16,7 @@ dashboard:boolean = false;
   constructor(private api:APIService) { }
 
   ngOnInit(): void {
+    localStorage.setItem('selected','dashboard');
     this.dashboard = true;
     this.api.dashboard.next(this.dashboard);
 
