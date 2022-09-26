@@ -11,7 +11,7 @@ videos:any = [];
   constructor(private api:APIService) { }
 
   ngOnInit(): void {
-
+    localStorage.setItem('selected','videos');
     this.api.getRecordings('/recordings').subscribe((data:any) =>{
       // console.log(data);
       this.videos = data.response;

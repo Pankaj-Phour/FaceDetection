@@ -17,12 +17,13 @@
 .navItem{
     font-size: 23px;
     font-weight: 600;
-    color:yellowgreen
+    color:yellowgreen;
+    padding: 6px;
 }
 .navItem:hover{
     color: green;
     cursor: pointer;
-    text-decoration: underline;
+    // text-decoration: underline;
 }
 .headers{
     display: flex;

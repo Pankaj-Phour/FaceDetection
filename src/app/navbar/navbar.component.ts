@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, DoCheck, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { APIService } from '../api.service';
 
@@ -7,9 +7,10 @@ import { APIService } from '../api.service';
   templateUrl: './navbar.component.html',
   styleUrls: ['./navbar.component.scss']
 })
-export class NavbarComponent implements OnInit {
+export class NavbarComponent implements OnInit,DoCheck {
   search:FormGroup;
   dashboard:boolean = false;
+  selected:any = 'login';
   constructor(private api:APIService) { }
 
   ngOnInit(): void {
@@ -23,6 +24,7 @@ export class NavbarComponent implements OnInit {
         this.dashboard = false;
       }
     })
+    
   }
 
   validation(){
@@ -33,5 +35,12 @@ export class NavbarComponent implements OnInit {
 
   input(e:any){
     this.api.input.next(e.target.value)
+  }
+
+  ngDoCheck(): void {
+    if(localStorage.getItem('selected')){
+      this.selected = localStorage.getItem('selected')
+    }
+
   }
 }

@@ -1,9 +1,9 @@
 <div class="body">
     <div class="navbar">
-        <div class="navItem" routerLink="/">Login</div>
-        <div class="navItem" routerLink="/dashboard">Dashboard</div>
-        <div class="navItem" routerLink="/camera">Camera</div>
-        <div class="navItem" routerLink="/videos">Videos</div>
+        <div class="navItem" routerLink="/" [ngStyle]="{border : selected == 'login' ? '2px solid green' : ''}">Login</div>
+        <div class="navItem" routerLink="/dashboard" [ngStyle]="{border : selected == 'dashboard' ? '2px solid green' : ''}">Dashboard</div>
+        <div class="navItem" routerLink="/camera" [ngStyle]="{border : selected == 'camera' ? '2px solid green' : ''}">Camera</div>
+        <div class="navItem" routerLink="/videos" [ngStyle]="{border : selected == 'videos' ? '2px solid green' : ''}">Videos</div>
         <div class="navItem" *ngIf="dashboard">
             <form [formGroup]="search">
                 <input placeholder="Search user" type="text" formControlName="name" (input)="input($event)">
