@@ -31,14 +31,14 @@ export class LoginComponent implements OnInit {
       this.Submit = false;
     },2000)
     if(this.Login.invalid){
-      console.log("Please fill your details to proceed");   
+      // console.log("Please fill your details to proceed");   
     }
     else{
 
     localStorage.setItem('email',this.Login.value.email);
     localStorage.setItem('password',this.Login.value.password);
 
-    console.log("Submitted");
+    // console.log("Submitted");
     this.router.navigate(['/dashboard'])
     }
   }

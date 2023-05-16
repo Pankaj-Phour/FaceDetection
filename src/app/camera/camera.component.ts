@@ -47,7 +47,7 @@ export class CameraComponent implements OnInit,OnDestroy {
       // console.log(this.recording);
       setTimeout(()=>{
         fetch(this.recording.changingThisBreaksApplicationSecurity).then(res => res.blob()).then(e => {
-          console.log(e)
+          // console.log(e)
           this.file = e;
           let self = this;
           let reader = new FileReader()
@@ -84,6 +84,7 @@ export class CameraComponent implements OnInit,OnDestroy {
       // console.log(this.recording);
 
       let detections = []
+      if(this.video){
       const predictions = model.estimateFaces(this.video)
       if ((await predictions).length > 0) {
         for (let i = 0; i < (await predictions).length; i++) {
@@ -93,6 +94,7 @@ export class CameraComponent implements OnInit,OnDestroy {
         }
       }
       this.person = detections.length;
+    }
     }, 25)
   }
 
