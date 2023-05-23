@@ -31,6 +31,11 @@ export class APIService {
   }
 
 
+  getAllUses(endpoint:any){
+    return this.http.get(environment.Url + endpoint)
+  }
+
+
   
   // Behaviour subjects 
 

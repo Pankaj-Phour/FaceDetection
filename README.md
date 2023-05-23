@@ -1,8 +1,9 @@
-# View Profile
+# View Portfolio
 https://pankajphour.netlify.app/
 
-
-# Camera
+# View Profile 
+https://github.com/pankaj-phour
+# Angular 
 
 This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 14.0.1.
 
