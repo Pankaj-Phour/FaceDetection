@@ -9,23 +9,21 @@ import { APIService } from '../api.service';
   templateUrl: './camera.component.html',
   styleUrls: ['./camera.component.scss']
 })
-export class CameraComponent implements OnInit,OnDestroy {
+export class CameraComponent implements OnInit, OnDestroy {
   video: any;
   person: number = 0;
-  mediaStream:any;
+  mediaStream: any;
   mediaRecorder: any;
   data: any = [];
   recording: any;
   stopButton: boolean = false;
-  file:any;
+  file: any;
   constructor(private dom: DomSanitizer,
-    private api:APIService
-    ) {
-
-  }
+    private api: APIService
+  ) {}
 
   ngOnInit() {
-    localStorage.setItem('selected','camera');
+    localStorage.setItem('selected', 'camera');
     this.openCamea();
     this.detectFaces();
   }
@@ -40,31 +38,27 @@ export class CameraComponent implements OnInit,OnDestroy {
 
       // When we stop the recording this code block gets called automatically 
       this.mediaRecorder.onstop = (e) => {
-      let blob = new Blob(this.data, { type: 'video/mp4' })
-      this.data = [];
-      let recording = URL.createObjectURL(blob);
-      this.recording = this.dom.bypassSecurityTrustUrl(recording);
-      setTimeout(()=>{
-        fetch(this.recording.changingThisBreaksApplicationSecurity).then(res => res.blob()).then(e => {
-          this.file = e;
-          let self = this;
-          let reader = new FileReader()
-          reader.onload = function(e){
-            const video = <HTMLVideoElement>document.getElementById('video');
-            const thumb = self.captureNew(video);
-            let params = {
-              url:e.target.result,
-              thumbnail : thumb.toDataURL()
+        let blob = new Blob(this.data, { type: 'video/mp4' })
+        this.data = [];
+        let recording = URL.createObjectURL(blob);
+        this.recording = this.dom.bypassSecurityTrustUrl(recording);
+        setTimeout(() => {
+          fetch(this.recording.changingThisBreaksApplicationSecurity).then(res => res.blob()).then(e => {
+            this.file = e;
+            let self = this;
+            let reader = new FileReader()
+            reader.onload = function (e) {
+              const video = <HTMLVideoElement>document.getElementById('video');
+              const thumb = self.captureNew(video);
+              let params = {
+                url: e.target.result,
+                thumbnail: thumb.toDataURL()
+              }
+              self.api.postVideo('/recordedVideo?', params).subscribe(() => { })
             }
-            console.log(thumb,thumb.toDataURL());
-            
-            self.api.postVideo('/recordedVideo?',params).subscribe(()=>{})
-          }
-          reader.readAsDataURL(self.file)
-        });
-      },2000)
-      
-
+            reader.readAsDataURL(self.file)
+          });
+        }, 2000)
       }
       this.mediaRecorder.ondataavailable = (e) => {
         this.data.push(e.data)
@@ -72,22 +66,22 @@ export class CameraComponent implements OnInit,OnDestroy {
     })
   }
 
+  // Function helps to detect faces in the user's web cam (Here we are using blazeface model to detect faces)
   async detectFaces() {
-
     const model = await blazeface.load()
     setInterval(async () => {
       let detections = []
-      if(this.video){
-      const predictions = model.estimateFaces(this.video)
-      if ((await predictions).length > 0) {
-        for (let i = 0; i < (await predictions).length; i++) {
-          if (((await predictions)[i].probability[0] * 100) > 5) {
-            detections.push(await predictions[i])
+      if (this.video) {
+        const predictions = model.estimateFaces(this.video)
+        if ((await predictions).length > 0) {
+          for (let i = 0; i < (await predictions).length; i++) {
+            if (((await predictions)[i].probability[0] * 100) > 5) {
+              detections.push(await predictions[i])
+            }
           }
         }
+        this.person = detections.length;
       }
-      this.person = detections.length;
-    }
     }, 25)
   }
 
@@ -106,20 +100,21 @@ export class CameraComponent implements OnInit,OnDestroy {
   }
 
 
-// Function hits when this component is destroyed from the viewport 
+  // Function hits when this component is destroyed from the viewport 
   ngOnDestroy(): void {
-      this.mediaStream.getTracks().forEach(element => {
-        element.stop()
-        if(this.stopButton){
-          this.stop()
-        }
-      });
+    this.mediaStream.getTracks().forEach(element => {
+      element.stop()
+      if (this.stopButton) {
+        this.stop()
+      }
+    });
   }
 
-  captureNew(video:any) {
+  // Function to generate thumbnail of the user's video 
+  captureNew(video: any) {
     // const w = video.videoWidth;
     // const h = video.videoHeight;
-   let w = 300;
+    let w = 300;
     let h = 200;
     const canvas = document.createElement("canvas");
     canvas["width"] = w;
@@ -127,20 +122,20 @@ export class CameraComponent implements OnInit,OnDestroy {
     const ctx = canvas["getContext"]("2d");
     ctx.drawImage(video, 0, 0, w, h);
     return canvas as HTMLCanvasElement;
-}
-
-
-// This function was used when we are uploading a file (to backend) from our system storage and not a webcam video 
-handleInput(e:any){
-  const file = e.target.files[0];
-  const self = this;
-  let reader  = new FileReader()
-  reader.onload = function(e){
-    let params = {
-      url:e.target.result
-    }
-    self.api.postVideo('/recordedVideo?',params).subscribe(()=>{})
   }
-  reader.readAsDataURL(file)
-}
+
+
+  // This function was used when we are uploading a file (to backend) from our system storage and not a webcam video 
+  handleInput(e: any) {
+    const file = e.target.files[0];
+    const self = this;
+    let reader = new FileReader()
+    reader.onload = function (e) {
+      let params = {
+        url: e.target.result
+      }
+      self.api.postVideo('/recordedVideo?', params).subscribe(() => { })
+    }
+    reader.readAsDataURL(file)
+  }
 }
