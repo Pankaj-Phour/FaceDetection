@@ -50,14 +50,15 @@ export class CameraComponent implements OnInit,OnDestroy {
           let self = this;
           let reader = new FileReader()
           reader.onload = function(e){
-            let params = {
-              url:e.target.result
-            }
             const video = <HTMLVideoElement>document.getElementById('video');
             const thumb = self.captureNew(video);
+            let params = {
+              url:e.target.result,
+              thumbnail : thumb.toDataURL()
+            }
             console.log(thumb,thumb.toDataURL());
             
-            // self.api.postVideo('/recordedVideo?',params).subscribe(()=>{})
+            self.api.postVideo('/recordedVideo?',params).subscribe(()=>{})
           }
           reader.readAsDataURL(self.file)
         });
@@ -116,8 +117,10 @@ export class CameraComponent implements OnInit,OnDestroy {
   }
 
   captureNew(video:any) {
-    const w = video.videoWidth;
-    const h = video.videoHeight;
+    // const w = video.videoWidth;
+    // const h = video.videoHeight;
+   let w = 300;
+    let h = 200;
     const canvas = document.createElement("canvas");
     canvas["width"] = w;
     canvas["height"] = h;
