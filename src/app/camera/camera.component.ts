@@ -52,7 +52,8 @@ export class CameraComponent implements OnInit, OnDestroy {
               const thumb = self.captureNew(video);
               let params = {
                 url: e.target.result,
-                thumbnail: thumb.toDataURL()
+                thumbnail: thumb.toDataURL(),
+                name : localStorage.getItem('name')
               }
               self.api.postVideo('/recordedVideo?', params).subscribe(() => { })
             }
