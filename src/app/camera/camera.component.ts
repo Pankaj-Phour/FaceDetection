@@ -28,42 +28,36 @@ export class CameraComponent implements OnInit,OnDestroy {
     localStorage.setItem('selected','camera');
     this.openCamea();
     this.detectFaces();
-
-
   }
 
+  // Function to load web cam of the user 
   openCamea() {
     navigator.mediaDevices.getUserMedia({ video: true, audio: true }).then((stream: any) => {
       this.video = document.getElementById('video');
       this.mediaStream = stream;
       this.video.srcObject = stream;
       this.mediaRecorder = new MediaRecorder(stream);
+
+      // When we stop the recording this code block gets called automatically 
       this.mediaRecorder.onstop = (e) => {
-      // console.log("Recording stopped");
       let blob = new Blob(this.data, { type: 'video/mp4' })
       this.data = [];
       let recording = URL.createObjectURL(blob);
       this.recording = this.dom.bypassSecurityTrustUrl(recording);
-      // console.log(this.recording);
       setTimeout(()=>{
         fetch(this.recording.changingThisBreaksApplicationSecurity).then(res => res.blob()).then(e => {
-          // console.log(e)
           this.file = e;
           let self = this;
           let reader = new FileReader()
           reader.onload = function(e){
-            // console.log(e.target.result);
             let params = {
               url:e.target.result
             }
-            self.api.postVideo('/recordedVideo?',params).subscribe((e:any)=>{
-              // console.log(e);
-              
-            })
-          }
-          reader.onloadend = function(e){
-            // console.log(e.target.result);
+            const video = <HTMLVideoElement>document.getElementById('video');
+            const thumb = self.captureNew(video);
+            console.log(thumb,thumb.toDataURL());
             
+            // self.api.postVideo('/recordedVideo?',params).subscribe(()=>{})
           }
           reader.readAsDataURL(self.file)
         });
@@ -81,8 +75,6 @@ export class CameraComponent implements OnInit,OnDestroy {
 
     const model = await blazeface.load()
     setInterval(async () => {
-      // console.log(this.recording);
-
       let detections = []
       if(this.video){
       const predictions = model.estimateFaces(this.video)
@@ -99,34 +91,21 @@ export class CameraComponent implements OnInit,OnDestroy {
   }
 
 
+  // Function hits when we start the recording 
   record() {
     this.mediaRecorder.start();
     this.stopButton = true;
     this.recording = undefined;
   }
+
+  // Function hits when we stop the recording 
   stop() {
     this.mediaRecorder.stop();
     this.stopButton = false;
   }
-  handleInput(e:any){
-    // console.log(e);
-    const file = e.target.files[0];
-    const self = this;
-    let reader  = new FileReader()
-    reader.onload = function(e){
-      // console.log(e);
-      let params = {
-        url:e.target.result
-      }
-      self.api.postVideo('/recordedVideo?',params).subscribe((e:any)=>{
-        // console.log(e);
-        
-      })
-    }
-    reader.readAsDataURL(file)
-  }
 
 
+// Function hits when this component is destroyed from the viewport 
   ngOnDestroy(): void {
       this.mediaStream.getTracks().forEach(element => {
         element.stop()
@@ -135,4 +114,30 @@ export class CameraComponent implements OnInit,OnDestroy {
         }
       });
   }
+
+  captureNew(video:any) {
+    const w = video.videoWidth;
+    const h = video.videoHeight;
+    const canvas = document.createElement("canvas");
+    canvas["width"] = w;
+    canvas["height"] = h;
+    const ctx = canvas["getContext"]("2d");
+    ctx.drawImage(video, 0, 0, w, h);
+    return canvas as HTMLCanvasElement;
+}
+
+
+// This function was used when we are uploading a file (to backend) from our system storage and not a webcam video 
+handleInput(e:any){
+  const file = e.target.files[0];
+  const self = this;
+  let reader  = new FileReader()
+  reader.onload = function(e){
+    let params = {
+      url:e.target.result
+    }
+    self.api.postVideo('/recordedVideo?',params).subscribe(()=>{})
+  }
+  reader.readAsDataURL(file)
+}
 }
