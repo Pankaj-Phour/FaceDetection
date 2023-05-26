@@ -3,6 +3,13 @@
         <div class="form">
             <form [formGroup]="Login">
                 <div class="formgroup">
+                <label for="name">
+                    Name 
+                </label>
+                <input type="name" placeholder="Enter your name" formControlName="name">
+                <div class="error" *ngIf="Login.get('name').hasError('required') && (Submit)">Please enter your name</div>
+            </div>
+                <div class="formgroup">
                 <label for="email">
                     Email 
                 </label>

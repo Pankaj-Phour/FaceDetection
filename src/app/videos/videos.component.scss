@@ -14,3 +14,24 @@ h2{
     color:black;
     font-family: cursive;
 }
+
+.card{
+    display: flex;
+    flex-direction: column;
+
+}
+.name{
+    font-size: 35px;
+}
+.detail{
+    display: flex;
+    justify-content: space-around;
+}
+.details button{
+    padding: 6px;
+    padding-inline: 10px;
+    border-radius: 7px;
+    border: 1px solid white;
+    font-size: 17px;
+    cursor: pointer;
+}

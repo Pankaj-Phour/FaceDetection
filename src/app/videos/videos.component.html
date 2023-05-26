@@ -1,9 +1,11 @@
 <div class="container">
-    <h2>Videos from web cam </h2>
-
+    <h2>All videos </h2>
 <div class="data">
 <div class="card" *ngFor="let video of videos">
-    <video  [src]="video.url" height="200" width="300" controls autoplay></video>
+    <div class="name">{{video.name}}</div>
+    <div class="detail">
+     <button>See Video</button>
+    </div>
 </div>
 </div>
 </div>

@@ -22,7 +22,9 @@ export class LoginComponent implements OnInit {
   validation(){
     this.Login = this.fb.group({
       email: new FormControl('',Validators.compose([Validators.required,Validators.email])),
-      password: new FormControl('',Validators.required)
+      password: new FormControl('',Validators.required),
+      name: new FormControl('',Validators.required)
+      
     })
   }
   submit(){
@@ -34,9 +36,9 @@ export class LoginComponent implements OnInit {
       // console.log("Please fill your details to proceed");   
     }
     else{
-
     localStorage.setItem('email',this.Login.value.email);
     localStorage.setItem('password',this.Login.value.password);
+    localStorage.setItem('name',this.Login.value.name);
 
     // console.log("Submitted");
     this.router.navigate(['/dashboard'])
