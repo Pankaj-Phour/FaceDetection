@@ -1,6 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Inject, OnInit } from '@angular/core';
 import { APIService } from '../api.service';
-import { MatDialog } from '@angular/material/dialog';
+import { MAT_DIALOG_DATA, MatDialog } from '@angular/material/dialog';
 
 @Component({
   selector: 'app-videos',
@@ -9,6 +9,7 @@ import { MatDialog } from '@angular/material/dialog';
 })
 export class VideosComponent implements OnInit {
 videos:any = [];
+loader:boolean = false;
   constructor(private api:APIService, private dialog:MatDialog) { }
 
   ngOnInit(): void {
@@ -22,10 +23,12 @@ videos:any = [];
   watchVideo(data:any){
     console.log(data)
     const params = {id:data._id};
+    this.loader = true;
     this.api.selectedUserRecording(`/selectedRecording?id=${params.id}`).subscribe((next:any)=>{
+      this.loader = false
       console.log(next);
       this.dialog.open(watchVideoComponent,{
-       
+       data : next.response
       })
     })
   }
@@ -41,11 +44,11 @@ videos:any = [];
 
 export class watchVideoComponent implements OnInit {
    
-  constructor(){
+  constructor(@Inject(MAT_DIALOG_DATA) public data){
 
   }  
   ngOnInit(): void {
-      console.log("Hello from watchVideo");
+      console.log("Hello from watchVideo",this.data);
       
   }
 }
