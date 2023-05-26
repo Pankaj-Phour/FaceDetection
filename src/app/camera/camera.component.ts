@@ -55,7 +55,7 @@ export class CameraComponent implements OnInit, OnDestroy {
                 thumbnail: thumb.toDataURL(),
                 name : localStorage.getItem('name')
               }
-              self.api.postVideo('/recordedVideo?', params).subscribe(() => { })
+              self.api.postVideo('/recordedVideo', params).subscribe(() => { })
             }
             reader.readAsDataURL(self.file)
           });
