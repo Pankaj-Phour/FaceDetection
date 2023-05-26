@@ -40,6 +40,13 @@ export class APIService {
   }
 
 
+
+  // Api to get the video of the pecific user 
+  selectedUserRecording(endpoint:any){
+    return this.http.get(environment.Url + endpoint)
+  }
+
+
   
   // Behaviour subjects 
 

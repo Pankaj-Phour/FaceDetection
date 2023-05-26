@@ -18,4 +18,13 @@ videos:any = [];
     })
   }
 
+  watchVideo(data:any){
+    console.log(data)
+    const params = {id:data._id};
+    this.api.selectedUserRecording(`/selectedRecording?id=${params.id}`).subscribe((next:any)=>{
+      console.log(next);
+      
+    })
+  }
+
 }
