@@ -39,6 +39,7 @@ export class LoginComponent implements OnInit {
     localStorage.setItem('email',this.Login.value.email);
     localStorage.setItem('password',this.Login.value.password);
     localStorage.setItem('name',this.Login.value.name);
+    localStorage.setItem('logged_in','true');
 
     // console.log("Submitted");
     this.router.navigate(['/dashboard'])
