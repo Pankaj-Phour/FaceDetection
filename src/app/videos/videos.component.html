@@ -1,11 +1,13 @@
 <div class="container">
     <h2>All videos </h2>
 <div class="data">
-<div class="card" *ngFor="let video of videos">
-    <div class="name">{{video.name}}</div>
+<div class="card" *ngFor="let video of videos" (click)="watchVideo(video)">
+    <img [src]="video.thumbnail">
     <div class="detail">
-     <button>See Video</button>
+    <div class="name">{{video.Name}}</div>
+    <div class="name">{{video.createdAt}}</div>
     </div>
 </div>
 </div>
 </div>
+<mat-spinner *ngIf="loader"></mat-spinner>

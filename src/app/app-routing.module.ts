@@ -4,19 +4,34 @@ import { CameraComponent } from './camera/camera.component';
 import { DashboardComponent } from './dashboard/dashboard.component';
 import { LoginComponent } from './login/login.component';
 import { VideosComponent } from './videos/videos.component';
+import { AuthGuard } from './service/auth.guard';
 
 const routes: Routes = [
   {
-    path:'', component:LoginComponent
+    path:'',
+     component:LoginComponent
+
   },
   {
-    path:'dashboard', component:DashboardComponent
+    path:'dashboard',
+     component:DashboardComponent,
+     canActivate : [AuthGuard]
+
   },
   {
-    path:'camera', component:CameraComponent
+    path:'camera',
+     component:CameraComponent,
+     canActivate : [AuthGuard]
+
   },
   {
-    path:'videos', component:VideosComponent
+    path:'videos', 
+    component:VideosComponent,
+    canActivate : [AuthGuard]
+  },
+  {
+    path : '**',
+    redirectTo : ''
   }
 ];
 
