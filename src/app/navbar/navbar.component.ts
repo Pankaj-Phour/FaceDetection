@@ -24,6 +24,9 @@ export class NavbarComponent implements OnInit,DoCheck {
         this.dashboard = false;
       }
     })
+    if(localStorage.getItem('selected')){
+      this.selected = localStorage.getItem('selected')
+    }
     
   }
 
@@ -41,6 +44,5 @@ export class NavbarComponent implements OnInit,DoCheck {
     if(localStorage.getItem('selected')){
       this.selected = localStorage.getItem('selected')
     }
-
   }
 }
