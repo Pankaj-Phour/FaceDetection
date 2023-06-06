@@ -45,10 +45,10 @@ loader:boolean = false;
 export class watchVideoComponent implements OnInit {
    
   constructor(@Inject(MAT_DIALOG_DATA) public data){
-
+    
   }  
   ngOnInit(): void {
-      console.log("Hello from watchVideo",this.data);
+      // console.log("Hello from watchVideo",this.data);
       
   }
 }
