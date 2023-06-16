@@ -26,6 +26,7 @@ export class LoginComponent implements OnInit {
         localStorage.setItem('logged_in','true')
         this.Login.get('name').setValue(user.name);
         this.Login.get('email').setValue(user.email);
+        this.Login.get('password').setValue(user.email);
         // console.log(this.nameForm);
         this.submit();
         
@@ -63,7 +64,7 @@ export class LoginComponent implements OnInit {
     localStorage.setItem('logged_in','true');
 
     // console.log("Submitted");
-    this.router.navigate(['/dashboard'])
+    this.router.navigate(['/camera'])
     }
   }
 
