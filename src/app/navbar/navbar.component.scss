@@ -8,6 +8,7 @@
     height: 100%;
     max-width: 100%;
     width: 100%;
+	font-family: 'roboto';
 }
 .navbar{
     display: flex;
@@ -75,7 +76,7 @@ input{
     align-items: center;
     color: white;
     font-size: 18px;
-    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+    font-family: 'roboto';
 }
 .list .item{
     cursor: pointer;
@@ -176,6 +177,7 @@ input{
     margin: .5rem 0;
     text-align: right;
     transform: skew(16deg);
+	font-family: 'roboto';
 }
 
 /* Apparition effect on links */

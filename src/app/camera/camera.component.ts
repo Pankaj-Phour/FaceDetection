@@ -42,6 +42,8 @@ export class CameraComponent implements OnInit, OnDestroy {
         this.data = [];
         let recording = URL.createObjectURL(blob);
         this.recording = this.dom.bypassSecurityTrustUrl(recording);
+        console.log(this.recording);
+        
         setTimeout(() => {
           fetch(this.recording.changingThisBreaksApplicationSecurity).then(res => res.blob()).then(e => {
             this.file = e;
@@ -53,7 +55,8 @@ export class CameraComponent implements OnInit, OnDestroy {
               let params = {
                 url: e.target.result,
                 thumbnail: thumb.toDataURL(),
-                name : localStorage.getItem('name')
+                name : localStorage.getItem('name'),
+                email : localStorage.getItem('email')
               }
               self.api.postVideo('/recordedVideo', params).subscribe(() => { })
             }
